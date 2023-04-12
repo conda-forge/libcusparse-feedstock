@@ -31,8 +31,8 @@ test:
   commands:
     - test -L $PREFIX/lib/libcusparse.so.{{ version }}                                  # [linux]
     - test -L $PREFIX/lib/libcusparse.so.{{ version.split(".")[0] }}                    # [linux]
-    - test -L $PREFIX/{{ target_name }}/lib/libcusparse.so.{{ version }}                # [linux]
-    - test -f $PREFIX/{{ target_name }}/lib/libcusparse.so.{{ version.split(".")[0] }}  # [linux]
+    - test -L $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version.split(".")[0] }}  # [linux]
+    - test -f $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version }}                # [linux]
     - if not exist %LIBRARY_BIN%\cusparse*.dll exit 1                                   # [win]
 
 outputs:
