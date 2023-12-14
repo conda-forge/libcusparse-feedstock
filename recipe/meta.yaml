@@ -98,8 +98,8 @@ outputs:
         - libnvjitlink
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - {{ pin_compatible("libnvjitlink", max_pin="x.x") }}
         - {{ pin_subpackage("libcusparse", exact=True) }}
-        - {{ pin_subpackage("libnvjitlink", exact=True) }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - libcusparse-static >={{ version }}  # [linux]
