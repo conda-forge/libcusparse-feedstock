@@ -1,6 +1,6 @@
 {% set name = "libcusparse" %}
-{% set version = "12.0.0.76" %}
-{% set cuda_version = "12.0" %}
+{% set version = "12.1.0.106" %}
+{% set cuda_version = "12.1" %}
 {% set platform = "linux-x86_64" %}    # [linux64]
 {% set platform = "linux-ppc64le" %}   # [ppc64le]
 {% set platform = "linux-sbsa" %}      # [aarch64]
@@ -18,13 +18,13 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/{{ name }}/{{ platform }}/{{ name }}-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 66bd1962f4905b6fc49446d5b2570bcd6171a96833b93f44ad4fc5650f47a496  # [linux64]
-  sha256: 36b5f682ebe21089d1bbc8250eabd18c9c9a8bf498b5f878ea4944fda16d8203  # [ppc64le]
-  sha256: ee3a2ff7becc449aeda6b2cec11ad7f0606cef4b54eb6511d5f0c1166c79cc80  # [aarch64]
-  sha256: a475bc85cfc204aff825e3e5d97d7c1993d3f2cfec22a87e76b8d596fc496a02  # [win]
+  sha256: ae1f604d6aa753b156e3072519a29938b74b37b727c7bd78fab73add78f83907  # [linux64]
+  sha256: 7b767e2294b6ea89cb0163d7f2d37d7c28973d06e0ea1273a650fd1b6933518e  # [ppc64le]
+  sha256: 1cede312d23dd19225cac1124363835127a08d9641f7e2a330056b7c35190703  # [aarch64]
+  sha256: 882156f87ec1f95938d7b1a35419fbc340e475488dbd45664ef8b8705767c1d2  # [win]
 
 build:
-  number: 2
+  number: 0
   binary_relocation: false
   skip: true  # [osx]
 
@@ -95,8 +95,10 @@ outputs:
         - sysroot_{{ target_platform }} 2.17    # [linux]
       host:
         - cuda-version {{ cuda_version }}
+        - libnvjitlink
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - {{ pin_compatible("libnvjitlink", max_pin="x.x") }}
         - {{ pin_subpackage("libcusparse", exact=True) }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
@@ -168,4 +170,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - adibbley
+    - conda-forge/cuda
