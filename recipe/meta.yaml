@@ -1,6 +1,6 @@
 {% set name = "libcusparse" %}
-{% set version = "12.1.0.106" %}
-{% set cuda_version = "12.1" %}
+{% set version = "12.1.2.141" %}
+{% set cuda_version = "12.2" %}
 {% set platform = "linux-x86_64" %}    # [linux64]
 {% set platform = "linux-ppc64le" %}   # [ppc64le]
 {% set platform = "linux-sbsa" %}      # [aarch64]
@@ -18,10 +18,10 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/{{ name }}/{{ platform }}/{{ name }}-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: ae1f604d6aa753b156e3072519a29938b74b37b727c7bd78fab73add78f83907  # [linux64]
-  sha256: 7b767e2294b6ea89cb0163d7f2d37d7c28973d06e0ea1273a650fd1b6933518e  # [ppc64le]
-  sha256: 1cede312d23dd19225cac1124363835127a08d9641f7e2a330056b7c35190703  # [aarch64]
-  sha256: 882156f87ec1f95938d7b1a35419fbc340e475488dbd45664ef8b8705767c1d2  # [win]
+  sha256: 042d635487006837e08ebe0c307ee1ccfa026209d0ce2c64183581626c79ff3b  # [linux64]
+  sha256: 623895f34c8a80bbcb2ba2e0f491b1919cb7891480b0284afb5d6c3e7452bf5f  # [ppc64le]
+  sha256: 5068d6909a37bb96989f6af6a197280986eb917398391da2f45df2e47eb44cf6  # [aarch64]
+  sha256: 70ea2dfc918aa23fadb8e3804cd6f04e80ec19f44eeffa635bf3e69e76b3c046  # [win]
 
 build:
   number: 0
