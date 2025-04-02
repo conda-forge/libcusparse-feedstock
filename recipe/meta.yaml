@@ -1,9 +1,9 @@
 {% set name = "libcusparse" %}
 {% set version = "12.5.8.93" %}
 {% set cuda_version = "12.8" %}
-{% set platform = "linux-x86_64" %}    # [linux64]
-{% set platform = "linux-ppc64le" %}   # [ppc64le]
-{% set platform = "linux-sbsa" %}      # [aarch64]
+{% set platform = "linux-x86_64" %}  # [linux64]
+{% set platform = "linux-ppc64le" %}  # [ppc64le]
+{% set platform = "linux-sbsa" %}  # [aarch64]
 {% set platform = "windows-x86_64" %}  # [win]
 {% set target_name = "x86_64-linux" %}  # [linux64]
 {% set target_name = "ppc64le-linux" %}  # [ppc64le]
@@ -13,7 +13,7 @@
 {% set extension = "zip" %}  # [win]
 
 package:
-  name: {{ name|lower }}
+  name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
@@ -23,22 +23,14 @@ source:
   sha256: f13b243912d8b07cc0136ad3760cd351553c74c1b54b7a6dbedb1dcc98ee8eb5  # [win]
 
 build:
-  number: 0
+  number: 1
   binary_relocation: false
   skip: true  # [osx or ppc64le]
 
-test:
-  requires:
-    - patchelf  # [linux]
-  files:
-    - test-rpath.sh
-  commands:
-    - test -L $PREFIX/lib/libcusparse.so.{{ version }}                                  # [linux]
-    - test -L $PREFIX/lib/libcusparse.so.{{ version.split(".")[0] }}                    # [linux]
-    - test -L $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version.split(".")[0] }}  # [linux]
-    - test -f $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version }}                # [linux]
-    - bash test-rpath.sh                                                                        # [linux]
-    - if not exist %LIBRARY_BIN%\cusparse*.dll exit 1                                   # [win]
+requirements:
+  build:
+    - cf-nvidia-tools 1.*  # [linux]
+    - patchelf <0.18.0     # [linux]
 
 outputs:
   - name: libcusparse
@@ -52,7 +44,6 @@ outputs:
         - {{ compiler("cxx") }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - {{ stdlib("c") }}
-        - patchelf <0.18.0                      # [linux]
       host:
         - cuda-version {{ cuda_version }}
         - libnvjitlink
@@ -61,7 +52,18 @@ outputs:
         - {{ pin_compatible("libnvjitlink", max_pin="x.x") }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
-    # Tests are defined at the top level, due to package/output name conflicts.
+    test:
+      requires:
+        - patchelf  # [linux]
+      files:
+        - test-rpath.sh
+      commands:
+        - test -L $PREFIX/lib/libcusparse.so.{{ version }}                                  # [linux]
+        - test -L $PREFIX/lib/libcusparse.so.{{ version.split(".")[0] }}                    # [linux]
+        - test -L $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version.split(".")[0] }}  # [linux]
+        - test -f $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version }}                # [linux]
+        - bash test-rpath.sh                                                                        # [linux]
+        - if not exist %LIBRARY_BIN%\cusparse*.dll exit 1                                   # [win]
     about:
       home: https://developer.nvidia.com/cusparse
       license_file: LICENSE
@@ -168,5 +170,6 @@ about:
   doc_url: https://docs.nvidia.com/cuda/cusparse/index.html
 
 extra:
+  feedstock-name: libcusparse
   recipe-maintainers:
     - conda-forge/cuda
