@@ -96,7 +96,7 @@ outputs:
         - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
-        - libnvjitlink
+        - libnvjitlink =={{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_compatible("libnvjitlink", max_pin="x.x") }}
@@ -140,7 +140,7 @@ outputs:
         - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
-        - libnvjitlink-static
+        - libnvjitlink-static =={{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_compatible("libnvjitlink-static", max_pin="x.x") }}
