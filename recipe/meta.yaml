@@ -99,7 +99,7 @@ outputs:
         - libnvjitlink =={{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-        - {{ pin_compatible("libnvjitlink", max_pin="x.x") }}
+        - {{ pin_compatible("libnvjitlink", max_pin="x") }}
         - {{ pin_subpackage("libcusparse", exact=True) }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
@@ -143,7 +143,7 @@ outputs:
         - libnvjitlink-static =={{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-        - {{ pin_compatible("libnvjitlink-static", max_pin="x.x") }}
+        - {{ pin_compatible("libnvjitlink-static", max_pin="x") }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
