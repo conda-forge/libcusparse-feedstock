@@ -1,5 +1,5 @@
 {% set name = "libcusparse" %}
-{% set version = "12.6.2.49" %}
+{% set version = "12.6.3.3" %}
 {% set cuda_version = "13.0" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
@@ -18,9 +18,9 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/{{ name }}/{{ platform }}/{{ name }}-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 06b1c8da59aaebf87d235e7517e71860358b4eab6afffcdda664dbfb48878864  # [linux64]
-  sha256: c6cb4d22d8906e7a8cbe0ef7b7f650ae09213179d5aec1f05c74c64a93e867ce  # [aarch64]
-  sha256: 1a4a35f8bfb453582ee12c5a7160f60150d74bc5fa831340b6257d1faa2b3355  # [win]
+  sha256: b9de356c3478329e2589d91284f2a685a36f041060f3cb897441ab46a480a30a  # [linux64]
+  sha256: 50c9fb74e8468af559150f3f072cc2793a5ff70792fa79962146096385cf7346  # [aarch64]
+  sha256: 21f70385aae76de5c24c6baab4df4337d0bc9e1ce69e9ebad228d87d686a28e6  # [win]
 
 build:
   number: 0
@@ -37,7 +37,7 @@ outputs:
     files:
       - lib/libcusparse.so.*                             # [linux]
       - targets/{{ target_name }}/lib/libcusparse*.so.*  # [linux]
-      - Library\bin\{{ target_name }}\cusparse*.dll      # [win]
+      - Library\bin\cusparse*.dll      # [win]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -63,7 +63,7 @@ outputs:
         - test -L $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version.split(".")[0] }}  # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libcusparse.so.{{ version }}                # [linux]
         - bash test-rpath.sh                                                                        # [linux]
-        - if not exist %LIBRARY_BIN%\{{ target_name }}\cusparse*.dll exit 1                         # [win]
+        - if not exist %LIBRARY_BIN%\cusparse*.dll exit 1                         # [win]
     about:
       home: https://developer.nvidia.com/cusparse
       license_file: LICENSE
